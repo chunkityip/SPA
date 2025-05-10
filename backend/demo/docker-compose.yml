@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  psql:
+    image: postgres:15
+    container_name: psql
+    environment:
+      POSTGRES_DB: spa_db
+      POSTGRES_USER: spa_user
+      POSTGRES_PASSWORD: spa_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - psql_data:/var/lib/postgresql/data
+
+  spa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spa
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://psql:5433/spa_db
+      SPRING_DATASOURCE_USERNAME: spa_user
+      SPRING_DATASOURCE_PASSWORD: spa_password
+    ports:
+      - "8080:8080"
+    depends_on:
+      - psql
+
+volumes:
+  psql_data:
