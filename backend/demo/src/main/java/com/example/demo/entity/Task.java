@@ -22,6 +22,8 @@ public class Task {
     private Boolean completed;
     private LocalDate dueDate;
 
+    private String status;
+
     // lazy loading will only load data when it's actually needed such as addTask()
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
